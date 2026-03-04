@@ -15,12 +15,12 @@ if api_key:
 
         if st.button("اردو میں سمجھاؤ"):
             if user_text:
-                response = model.generate_content(f"Explain this in very simple Urdu with examples: {user_text}")
+                response = model.generate_content(f"Explain this in simple Urdu with examples: {user_text}")
                 st.write(response.text)
             else:
                 st.warning("پہلے کچھ لکھیں تو سہی!")
     except Exception as e:
-        st.error(f"ایرر آ گیا ہے: {e}")
+        st.error(f"ایرر: {e}")
 else:
     st.info("براہ کرم بائیں طرف اپنی API Key ڈالیں۔")
     
