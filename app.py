@@ -1,10 +1,3 @@
-import streamlit as st
-import google.generativeai as genai
-
-# صفحے کی سیٹنگ اور اردو ڈیزائن (RTL Support)
-st.set_page_config(page_title="Asan Urdu Bot", layout="centered")
-
-# اردو کو دائیں طرف کرنے کے لیے CSS
 st.markdown("""
     <style>
     .stTextArea textarea {
@@ -20,20 +13,7 @@ st.markdown("""
         text-align: right;
     }
     </style>
-    """, unsafe_allow_index=True)
-
-st.title("📚 آسان اردو بوٹ")
-st.subheader("مشکل باتوں کو سادہ مثالوں سے سمجھیں")
-
-# سائیڈ بار میں API Key کا ڈبہ
-api_key = st.sidebar.text_input("اپنی Gemini API Key یہاں ڈالیں:", type="password")
-
-if api_key:
-    try:
-        genai.configure(api_key=api_key)
-        # ہم یہاں 'gemini-1.5-flash' استعمال کر رہے ہیں جو سب سے زیادہ مستحکم ہے
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        
+    """, unsafe_allow_html=True)
         user_text = st.text_area("وہ پیراگراف یا سوال یہاں لکھیں جو سمجھ نہیں آ رہا:", height=150)
 
         if st.button("اردو میں سمجھاؤ"):
