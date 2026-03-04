@@ -1,34 +1,26 @@
-st.markdown("""
-    <style>
-    .stTextArea textarea {
-        direction: rtl;
-        text-align: right;
-    }
-    .stMarkdown p, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
-        direction: rtl;
-        text-align: right;
-    }
-    div[data-testid="stExpander"] p {
-        direction: rtl;
-        text-align: right;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-        user_text = st.text_area("وہ پیراگراف یا سوال یہاں لکھیں جو سمجھ نہیں آ رہا:", height=150)
+import streamlit as st
+import google.generativeai as genai
+
+st.title("📚 آسان اردو بوٹ")
+
+# سائیڈ بار میں API Key
+api_key = st.sidebar.text_input("Gemini API Key:", type="password")
+
+if api_key:
+    try:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        user_text = st.text_area("یہاں وہ لکھیں جو سمجھ نہیں آ رہا:")
 
         if st.button("اردو میں سمجھاؤ"):
             if user_text:
-                with st.spinner('استاد جی سوچ رہے ہیں...'):
-                    prompt = f"تم ایک ماہر استاد ہو۔ اس متن کو ایک عام انسان کے لیے بالکل سادہ اردو میں روزمرہ کی مثالوں کے ساتھ سمجھاؤ: {user_text}"
-                    response = model.generate_content(prompt)
-                    
-                    st.markdown("---")
-                    st.markdown("### 💡 آسان وضاحت:")
-                    st.write(response.text)
+                response = model.generate_content(f"Explain this in simple Urdu with examples: {user_text}")
+                st.write(response.text)
             else:
-                st.warning("براہ کرم پہلے کچھ تحریر تو لکھیں۔")
+                st.warning("کچھ لکھیں تو سہی!")
     except Exception as e:
-        st.error(f"اوہ! ایک مسئلہ آ گیا ہے: {e}")
-        st.info("مشورہ: اپنی API Key دوبارہ چیک کریں یا تھوڑی دیر بعد کوشش کریں۔")
+        st.error(f"ایرر: {e}")
 else:
-    st.info("براہ کرم بائیں طرف اپنی API Key درج کریں تاکہ بوٹ کام شروع کر سکے۔")
+    st.info("بائیں طرف API Key ڈالیں۔")
+    
